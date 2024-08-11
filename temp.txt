@@ -1,0 +1,6 @@
+jefflustica2
+bq567T5hUU2q3z5d
+
+
+conn str
+mongodb+srv://jefflustica2:bq567T5hUU2q3z5d@bookstoredb.v5r7vir.mongodb.net/?retryWrites=true&w=majority&appName=BookstoreDB
