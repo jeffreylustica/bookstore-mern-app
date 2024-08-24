@@ -3,6 +3,7 @@ import BackButton from "../components/BackButton";
 import Spinner from "../components/Spinner";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 const EditBook = () => {
   const [title, setTitle] = useState("");
@@ -11,6 +12,7 @@ const EditBook = () => {
   const [isloading, setIsloading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     setIsloading(true);
@@ -24,12 +26,11 @@ const EditBook = () => {
       })
       .catch((error) => {
         console.log(error);
-        alert("An error happened, Please check the console.");
         setIsloading(false);
       });
   }, []);
 
-  const handleSaveBook = () => {
+  const handleEditBook = () => {
     const data = {
       title,
       author,
@@ -38,14 +39,15 @@ const EditBook = () => {
     setIsloading(true);
 
     axios
-      .post("http://localhost:5555/books", data)
+      .put(`http://localhost:5555/books/${id}`, data)
       .then(() => {
         setIsloading(false);
         navigate("/");
+        enqueueSnackbar("Books Edited Successfully", { variant: "success" });
       })
       .catch((error) => {
         setIsloading(false);
-        alert("An error occured. Please check console");
+        enqueueSnackbar("Error", { variant: "error" });
         console.log(error);
       });
   };
@@ -87,7 +89,7 @@ const EditBook = () => {
           />
         </div>
 
-        <button className="p-2 bg-sky-300 m-8" onClick={handleSaveBook}>
+        <button className="p-2 bg-sky-300 m-8" onClick={handleEditBook}>
           Save
         </button>
       </div>
